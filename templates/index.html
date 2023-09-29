@@ -4,10 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Music App</title>
+
+    <style>
+        /* Apply underline style to list items */
+        ul li {
+            text-decoration: none;
+            cursor: pointer;
+            color: black; /* Set the default text color */
+        }
+
+        /* Add underline and change color when hovering */
+        ul li:hover {
+            text-decoration: underline;
+            color: blue; /* Set the hover text color */
+        }
+
+        /* Style for displaying the currently playing song */
+        #currentlyPlaying {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome to the Simple Music App</h1>
-    <audio id="myAudio" controls>
+    <div id="currentlyPlaying"></div>
+    <audio id="myAudio" controls onended="resetCurrentlyPlaying()">
         <source id="audioSource" type="audio/mp3">
         Your browser does not support the audio element.
     </audio>
@@ -15,17 +37,30 @@
     <h2>Music Files</h2>
     <ul>
         {% for file in music_files %}
-            <li onclick="playMusic('{{ url_for('static', filename='music/' + file) }}')">{{ file }}</li>
+            <li onclick="playMusic(this)">{{ file }}</li>
         {% endfor %}
     </ul>
 
     <script>
-        function playMusic(source) {
+        function playMusic(clickedItem) {
             var audio = document.getElementById('myAudio');
             var audioSource = document.getElementById('audioSource');
-            audioSource.src = source;
+            var currentlyPlaying = document.getElementById('currentlyPlaying');
+            
+            // Construct the correct file path based on the clicked item's text content
+            var filePath = "{{ url_for('static', filename='music/') }}" + clickedItem.textContent;
+            
+            audioSource.src = filePath;
             audio.load();
             audio.play();
+
+            // Update the currently playing song display
+            currentlyPlaying.innerText = "Now Playing: " + clickedItem.textContent;
+        }
+
+        function resetCurrentlyPlaying() {
+            var currentlyPlaying = document.getElementById('currentlyPlaying');
+            currentlyPlaying.innerText = "";
         }
     </script>
 </body>
