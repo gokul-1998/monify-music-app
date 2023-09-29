@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Music</title>
+</head>
+<body>
+    <h1>Upload Music</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="music">Select Music File:</label>
+        <input type="file" name="music" id="music" accept=".mp3">
+        <br>
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>

@@ -6,9 +6,27 @@
     <title>Simple Music App</title>
 </head>
 <body>
-    <h1>Welcome to the MONIFY Music App</h1>
-    <audio controls>
-        <source src="{{ url_for('static', filename='music/Darshana.mp3') }}" type="audio/mp3">
+    <h1>Welcome to the Simple Music App</h1>
+    <audio id="myAudio" controls>
+        <source id="audioSource" type="audio/mp3">
+        Your browser does not support the audio element.
     </audio>
+
+    <h2>Music Files</h2>
+    <ul>
+        {% for file in music_files %}
+            <li onclick="playMusic('{{ url_for('static', filename='music/' + file) }}')">{{ file }}</li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        function playMusic(source) {
+            var audio = document.getElementById('myAudio');
+            var audioSource = document.getElementById('audioSource');
+            audioSource.src = source;
+            audio.load();
+            audio.play();
+        }
+    </script>
 </body>
 </html>
