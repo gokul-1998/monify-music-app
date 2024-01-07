@@ -121,9 +121,9 @@
             var lyricsDisplay = document.getElementById('lyricsDisplay');
 
             for (var i = 0; i < lyrics.length; i++) {
-                if (audio.currentTime >= lyrics[i].time && audio.currentTime < (lyrics[i + 1] ? lyrics[i + 1].time : Infinity)) {
+                if (audio.currentTime+1 >= lyrics[i].time && audio.currentTime+1 < (lyrics[i + 1] ? lyrics[i + 1].time : Infinity)) {
                     // Update the lyrics display to show all the lyrics up to the current time
-                    lyricsDisplay.innerText = lyrics.slice(0, i + 1).map(line => line.text).join('\n');
+                    lyricsDisplay.innerText = lyrics.slice(i, i + 3).map(line => line.text).join('\n');
                     break;
                 }
             }

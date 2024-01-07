@@ -51,14 +51,14 @@ def srt_to_lyrics(srt_file):
     return lyrics
 
 # Example usage:
-srt_file_path = 'lyrics.srt'
+srt_file_path = 'Memories.srt'
 lyrics_data = srt_to_lyrics(srt_file_path)
 
 @app.route('/')
 def index():
     music_files = [file for file in os.listdir(app.config['UPLOAD_FOLDER']) if file.endswith('.mp3')]
     
-    return render_template('index1.html', music_files=music_files,lyrics=lyrics_data)
+    return render_template('index.html', music_files=music_files,lyrics=lyrics_data)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
