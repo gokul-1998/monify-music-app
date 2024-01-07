@@ -62,9 +62,15 @@
         <!-- Music Files -->
         <div id="musicFiles">
             <h2>Music Files</h2>
+            
+            <div id = "lyrics" style="display:none;">{{lyrics|tojson}}</div>
             <ul>
                 {% for file in music_files %}
-                    <li onclick="playMusic(this)">{{ file }}</li>
+                    <!-- to pass lyrics to set_lyrics() function -->
+                    
+                    <li onclick='playMusic(this)'>{{ file }}</li>
+                    
+                   
                 {% endfor %}
             </ul>
         </div>
@@ -75,30 +81,19 @@
             <div id="lyricsDisplay"></div>
         </div>
     </div>
+    // to call a function on page load from html 
+    
+    
 
     <script>
-        var lyrics = [
-            { 'time': 7.02, 'text': 'Wise men say' },
-            { 'time': 13.92, 'text': 'Only fools rush in' },
-            { 'time': 21.17, 'text': "But I can't help falling in love with you" },
-            { 'time': 35.92, 'text': 'Shall I stay?' },
-            { 'time': 42.07, 'text': 'Would it be a sin' },
-            { 'time': 49.82, 'text': "If I can't help falling in love with you?" },
-            { 'time': 64.57, 'text': 'Like a river flows' },
-            { 'time': 68.36, 'text': 'Surely to the sea' },
-            { 'time': 71.76, 'text': 'Darling, so it goes' },
-            { 'time': 75.25, 'text': 'Some things are meant to be' },
-            { 'time': 82.51, 'text': 'Take my hand' },
-            { 'time': 88.75, 'text': 'Take my whole life too' },
-            { 'time': 104.57, 'text': "For I can't help falling in love with you" },
-            { 'time': 111.76, 'text': 'Like a river flows' },
-            { 'time': 115.25, 'text': 'Darling, so it goes' },
-            { 'time': 118.75, 'text': 'Some things are meant to be' },
-            { 'time': 128.64, 'text': 'Take my hand' },
-            { 'time': 134.89, 'text': 'Take my whole life too' },
-            { 'time': 142.04, 'text': "For I can't help falling in love with you" },
-            { 'time': 156.94, 'text': "For I can't help falling in love with you" }
-        ];
+        // Lyrics for each song
+
+        // to define set_lyrics() function 
+        
+
+        lyrics = JSON.parse(document.getElementById('lyrics').textContent);
+
+       
 
         function playMusic(clickedItem) {
             var audio = document.getElementById('myAudio');

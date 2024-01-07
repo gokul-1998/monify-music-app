@@ -31,35 +31,35 @@ app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = './static/music'
 
-# Define the lyrics data directly in the code
-lyrics_data = [
-    { 'time': 7.02, 'text': 'Wise men say' },
-    { 'time': 13.92, 'text': 'Only fools rush in' },
-    { 'time': 21.17, 'text': "But I can't help falling in love with you" },
-    { 'time': 35.92, 'text': 'Shall I stay?' },
-    { 'time': 42.07, 'text': 'Would it be a sin' },
-    { 'time': 49.82, 'text': "If I can't help falling in love with you?" },
-    { 'time': 64.57, 'text': 'Like a river flows' },
-    { 'time': 68.36, 'text': 'Surely to the sea' },
-    { 'time': 71.76, 'text': 'Darling, so it goes' },
-    { 'time': 75.25, 'text': 'Some things are meant to be' },
-    { 'time': 82.51, 'text': 'Take my hand' },
-    { 'time': 88.75, 'text': 'Take my whole life too' },
-    { 'time': 104.57, 'text': "For I can't help falling in love with you" },
-    { 'time': 111.76, 'text': 'Like a river flows' },
-    { 'time': 115.25, 'text': 'Darling, so it goes' },
-    { 'time': 118.75, 'text': 'Some things are meant to be' },
-    { 'time': 128.64, 'text': 'Take my hand' },
-    { 'time': 134.89, 'text': 'Take my whole life too' },
-    { 'time': 142.04, 'text': "For I can't help falling in love with you" },
-    { 'time': 156.94, 'text': "For I can't help falling in love with you" }
-]
+from datetime import datetime
+
+def srt_to_lyrics(srt_file):
+    with open(srt_file, 'r') as file:
+        lines = file.readlines()
+
+    lyrics = []
+
+    for i in range(0, len(lines), 4):
+        timecode = lines[i + 1].strip().replace(',', '.')
+        start_time, end_time = map(lambda x: datetime.strptime(x, '%H:%M:%S.%f'), timecode.split(' --> '))
+        start_time_seconds = start_time.hour * 3600 + start_time.minute * 60 + start_time.second + start_time.microsecond / 1e6
+        end_time_seconds = end_time.hour * 3600 + end_time.minute * 60 + end_time.second + end_time.microsecond / 1e6
+        text = lines[i + 2].strip()
+
+        lyrics.append({"time": start_time_seconds, "text": text})
+
+    return lyrics
+
+# Example usage:
+srt_file_path = 'lyrics.srt'
+lyrics_data = srt_to_lyrics(srt_file_path)
 
 @app.route('/')
 def index():
     music_files = [file for file in os.listdir(app.config['UPLOAD_FOLDER']) if file.endswith('.mp3')]
     
-    return render_template('index.html', music_files=music_files, lyrics_data=lyrics_data)
+    return render_template('index1.html', music_files=music_files,lyrics=lyrics_data)
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
