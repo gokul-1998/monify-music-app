@@ -51,6 +51,7 @@
 </head>
 <body>
     <h1>Welcome to the Simple Music App</h1>
+    {{lyrics|tojson}}
     <div id="currentlyPlaying"></div>
     <audio id="myAudio" controls ontimeupdate="updateLyrics()" onended="resetCurrentlyPlaying()">
         <source id="audioSource" type="audio/mp3">
@@ -123,7 +124,7 @@
             for (var i = 0; i < lyrics.length; i++) {
                 if (audio.currentTime+1 >= lyrics[i].time && audio.currentTime+1 < (lyrics[i + 1] ? lyrics[i + 1].time : Infinity)) {
                     // Update the lyrics display to show all the lyrics up to the current time
-                    lyricsDisplay.innerText = lyrics.slice(i, i + 3).map(line => line.text).join('\n');
+                    lyricsDisplay.innerText = lyrics.slice(i, i + 3).map(line => line.time +' ---> '+ line.text).join('\n');
                     break;
                 }
             }
